@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 #   Sombrero Pirata by Ppar
 #   Copyright (C) 2016  Saico elsaico@partidopirata.com.ar
 
@@ -13,12 +14,16 @@
 
 #   You should have received a copy of the GNU Affero General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>
-source 'https://rubygems.org'
-gem 'sinatra'
-gem 'activerecord', '~> 4.2'
-gem 'sqlite3'
-gem 'haml'
-gem 'mini_record'
-group :development do
-  gem 'rubocop'
+require 'sinatra'
+require 'sqlite3'
+require 'mini_record'
+
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
+                                        database: 'sombrero.sqlite')
+require './models/tarea'
+
+ActiveRecord::Base.auto_upgrade!
+
+get '/' do
+  'sinatra song'
 end

@@ -13,12 +13,9 @@
 
 #   You should have received a copy of the GNU Affero General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>
-source 'https://rubygems.org'
-gem 'sinatra'
-gem 'activerecord', '~> 4.2'
-gem 'sqlite3'
-gem 'haml'
-gem 'mini_record'
-group :development do
-  gem 'rubocop'
+class Tarea < ActiveRecord::Base
+  field :asunto, as: :text
+  field :responsable, as: :string
+  field :estado, as: :string, default: 'pendiente'
+  timestamps
 end
