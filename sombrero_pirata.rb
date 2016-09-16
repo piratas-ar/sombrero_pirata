@@ -17,6 +17,8 @@
 require 'sinatra'
 require 'sqlite3'
 require 'mini_record'
+require 'sinatra/form_helpers'
+require 'pry'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
@@ -25,5 +27,13 @@ require './models/tarea'
 ActiveRecord::Base.auto_upgrade!
 
 get '/' do
-  'sinatra song'
+  @tareas = Tarea.all
+  haml :index
 end
+
+post '/tareas' do
+  nueva_tarea = Tarea.new params[:tarea]
+  nueva_tarea.save
+  redirect '/' 
+end
+

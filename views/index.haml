@@ -1,0 +1,14 @@
+%h1 Hola, lo que quieras
+%table.table
+  %tbody
+    -@tareas.each do |tarea|
+      %tr
+        %td= tarea.asunto
+        %td= tarea.responsable
+        %td= tarea.estado
+        %td= tarea.created_at
+%form{method:'post', action:'/tareas'}
+  %input{type:'text', name:'tarea[asunto]'}
+  %input{type:'text', name:'tarea[responsable]'}
+  %input{type:'text', name:'tarea[estado]'}
+  %input{type:'submit'}

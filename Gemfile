@@ -19,6 +19,8 @@ gem 'activerecord', '~> 4.2'
 gem 'sqlite3'
 gem 'haml'
 gem 'mini_record'
+gem 'sinatra-formhelpers-ng'
 group :development do
   gem 'rubocop'
+  gem 'pry'
 end
