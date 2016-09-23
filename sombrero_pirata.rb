@@ -31,9 +31,15 @@ get '/' do
   haml :index
 end
 
-post '/tareas' do
+post '/tareas/new' do
   nueva_tarea = Tarea.new params[:tarea]
   nueva_tarea.save
   redirect '/' 
 end
 
+post '/tareas/asignar' do
+  tarea = Tarea.where(estado: "pendiente").sample
+  tarea.update_attribute(:responsable, params[:tarea][:responsable])
+  redirect '/'
+end
+  
