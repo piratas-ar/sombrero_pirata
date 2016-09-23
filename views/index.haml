@@ -1,5 +1,17 @@
-%h1 Hola, lo que quieras
+%h1 Sombrero Pirata para asignación de tareas
+%form{method: 'post', action: '/tareas'}
+  %input{type: 'text', name: 'tarea[asunto]', placeholder: 'Tarea'}
+  %input.datepicker{type: 'text', name: 'tarea[vencimiento]',
+                    placeholder: 'vencimiento'} 
+  %input.btn.btn-primary{type: 'submit', value: 'Agregar Tarea'}
 %table.table
+  %thead
+    %tr
+      %th Tarea
+      %th Responsable
+      %th Estado
+      %th Fecha creación
+      %th Fecha vencimiento
   %tbody
     -@tareas.each do |tarea|
       %tr
@@ -7,8 +19,4 @@
         %td= tarea.responsable
         %td= tarea.estado
         %td= tarea.created_at
-%form{method:'post', action:'/tareas'}
-  %input{type:'text', name:'tarea[asunto]'}
-  %input{type:'text', name:'tarea[responsable]'}
-  %input{type:'text', name:'tarea[estado]'}
-  %input{type:'submit'}
+        %td= tarea.vencimiento
