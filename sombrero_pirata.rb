@@ -27,7 +27,7 @@ require './models/tarea'
 ActiveRecord::Base.auto_upgrade!
 
 get '/' do
-  @tareas = Tarea.all
+  @tareas = Tarea.all.order(created_at: :desc)
   haml :index
 end
 
@@ -39,7 +39,8 @@ end
 
 post '/tareas/asignar' do
   tarea = Tarea.where(estado: "pendiente").sample
-  tarea.update_attribute(:responsable, params[:tarea][:responsable])
+  tarea.update_attributes(responsable: params[:tarea][:responsable],
+                          estado: 'asignado')
   redirect '/'
 end
   
