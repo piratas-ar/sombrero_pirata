@@ -20,7 +20,12 @@ gem 'sqlite3'
 gem 'haml'
 gem 'mini_record'
 gem 'sinatra-formhelpers-ng'
+gem 'padrino-mailer'
 group :development do
   gem 'rubocop'
   gem 'pry'
+  gem 'capistrano'
+  gem 'capistrano-passenger'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
 end
