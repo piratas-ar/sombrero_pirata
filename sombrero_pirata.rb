@@ -18,7 +18,7 @@ require 'sinatra'
 require 'sqlite3'
 require 'mini_record'
 require 'sinatra/form_helpers'
-require 'pry'
+#require 'pry'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
@@ -38,9 +38,18 @@ post '/tareas/new' do
 end
 
 post '/tareas/asignar' do
+  tareas = Tarea.where(responsable: params[:responsable])
+  .where.not(estado: "completado")
+  tareas.each do |tarea|
+    tarea.update_attributes(responsable: nil)
+  end
   tarea = Tarea.where(estado: "pendiente").sample
   tarea.update_attributes(responsable: params[:tarea][:responsable],
                           estado: 'asignado')
+  tareas = Tarea.where(estado: "asignado").where(responsable: nil)
+  tareas.each do |tarea|
+    tarea.update_attributes(estado: "pendiente")
+  end
   redirect '/'
 end
   
