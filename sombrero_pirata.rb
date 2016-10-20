@@ -23,6 +23,7 @@ require 'sinatra/form_helpers'
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
 require './models/tarea'
+require './models/responsable'
 
 ActiveRecord::Base.auto_upgrade!
 
@@ -34,22 +35,19 @@ end
 post '/tareas/new' do
   nueva_tarea = Tarea.new params[:tarea]
   nueva_tarea.save
-  redirect '/' 
+  redirect '/'
 end
 
 post '/tareas/asignar' do
-  tareas = Tarea.where(responsable: params[:responsable])
-  .where.not(estado: "completado")
-  tareas.each do |tarea|
-    tarea.update_attributes(responsable: nil)
+  responsable = Responsable.find_or_create_by!(email: params[:responsable][:email])
+  if responsable.tarea && responsable.tarea.estado != 'completada'
+    responsable.tarea.estado = 'pendiente'
+    responsable.tarea.responsable = nil
   end
-  tarea = Tarea.where(estado: "pendiente").sample
-  tarea.update_attributes(responsable: params[:tarea][:responsable],
-                          estado: 'asignado')
-  tareas = Tarea.where(estado: "asignado").where(responsable: nil)
-  tareas.each do |tarea|
-    tarea.update_attributes(estado: "pendiente")
-  end
+  tarea = Tarea.where(estado: 'pendiente').sample
+  responsable.tarea.save
+  tarea.responsable = responsable
+  tarea.estado = 'asignada'
+  tarea.save
   redirect '/'
 end
-  

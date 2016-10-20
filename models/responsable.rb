@@ -13,13 +13,11 @@
 
 #   You should have received a copy of the GNU Affero General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>
-class Tarea < ActiveRecord::Base
-  belongs_to :responsable
-# validates_format_of :responsable,
-#                      with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/,
-#                     on: :update
-  field :asunto, as: :text
-  field :estado, as: :string, default: 'pendiente'
-  field :vencimiento, as: :date
+class Responsable < ActiveRecord::Base
+  has_one :tarea
+  field :email, as: :string
   timestamps
+  def to_s
+    email.split('@').first
+  end
 end

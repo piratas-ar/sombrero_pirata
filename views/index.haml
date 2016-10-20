@@ -1,6 +1,6 @@
 %h1 Sombrero Pirata para asignación de tareas
 %form{method: 'post', action: '/tareas/asignar'}
-  %input{type: 'text', name: 'tarea[responsable]', placeholder: 'Responsable'}
+  %input{type: 'text', name: 'responsable[email]', placeholder: 'Responsable'}
   %input.btn.btn-primary{type: 'submit', value: 'Asignar tarea'}
 %form{method: 'post', action: '/tareas/new'}
   %input{type: 'text', name: 'tarea[asunto]', placeholder: 'Tarea'}
