@@ -17,6 +17,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   %body
     .container
+      -unless flash.empty?
+        .alert.alert-danger{role: "alert"}
+          =flash[:error]  
       =yield
     / jQuery (necessary for Bootstrap's JavaScript plugins)
     %script{:src => "/assets/js/jquery-3.1.1.min.js"}
@@ -24,3 +27,4 @@
     %script{:src => "/assets/js/bootstrap.min.js"}
     %script{src: "/assets/js/bootstrap-datepicker.min.js"}
     %script{src: "/assets/js/sombrero_pirata.js"} 
+

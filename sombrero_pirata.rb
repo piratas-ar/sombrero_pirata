@@ -19,6 +19,7 @@ require 'sqlite3'
 require 'mini_record'
 require 'sinatra/form_helpers'
 #require 'pry'
+require 'sinatra/flash'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
@@ -26,6 +27,8 @@ require './models/tarea'
 require './models/responsable'
 
 ActiveRecord::Base.auto_upgrade!
+
+enable :sessions
 
 get '/' do
   @tareas = Tarea.all.order(created_at: :desc)
@@ -45,9 +48,14 @@ post '/tareas/asignar' do
     responsable.tarea.responsable = nil
   end
   tarea = Tarea.where(estado: 'pendiente').sample
-  responsable.tarea.save
+  if tarea
+# binding.pry
+  responsable.tarea.save if responsable.tarea
   tarea.responsable = responsable
   tarea.estado = 'asignada'
   tarea.save
+  else
+    flash[:error] = "No hay tareas disponibles"
+  end
   redirect '/'
 end

@@ -21,6 +21,8 @@ gem 'haml'
 gem 'mini_record'
 gem 'sinatra-formhelpers-ng'
 gem 'padrino-mailer'
+gem 'state_machine'
+gem 'sinatra-flash'
 group :development do
   gem 'rubocop'
   gem 'pry'
