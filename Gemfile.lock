@@ -114,6 +114,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rbenv
   haml
+  mail
   mini_record
   padrino-mailer
   pry

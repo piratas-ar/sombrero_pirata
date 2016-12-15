@@ -23,6 +23,7 @@ gem 'sinatra-formhelpers-ng'
 gem 'padrino-mailer'
 gem 'state_machine'
 gem 'sinatra-flash'
+gem 'mail'
 group :development do
   gem 'rubocop'
   gem 'pry'

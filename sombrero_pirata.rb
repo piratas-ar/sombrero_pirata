@@ -20,6 +20,7 @@ require 'mini_record'
 require 'sinatra/form_helpers'
 #require 'pry'
 require 'sinatra/flash'
+require 'mail'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
@@ -50,10 +51,18 @@ post '/tareas/asignar' do
   tarea = Tarea.where(estado: 'pendiente').sample
   if tarea
 # binding.pry
-  responsable.tarea.save if responsable.tarea
-  tarea.responsable = responsable
-  tarea.estado = 'asignada'
-  tarea.save
+    responsable.tarea.save if responsable.tarea
+    tarea.responsable = responsable
+    tarea.estado = 'asignada'
+    tarea.save
+    mail = Mail.new do
+      from     'sombreo@partidopirata.com.ar'
+      to       responsable.email
+      subject  'Se te ha asignado una tarea'
+      body     tarea.asunto
+    end
+    mail.delivery_method :sendmail
+    mail.deliver
   else
     flash[:error] = "No hay tareas disponibles"
   end
