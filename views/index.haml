@@ -1,12 +1,17 @@
 %h1 Sombrero Pirata para asignación de tareas
-%form{method: 'post', action: '/tareas/asignar'}
-  %input{type: 'text', name: 'responsable[email]', placeholder: 'Responsable'}
-  %input.btn.btn-primary{type: 'submit', value: 'Asignar tarea'}
-%form{method: 'post', action: '/tareas/new'}
-  %input{type: 'text', name: 'tarea[asunto]', placeholder: 'Tarea'}
-  %input.datepicker{type: 'text', name: 'tarea[vencimiento]',
-                    placeholder: 'vencimiento'} 
-  %input.btn.btn-primary{type: 'submit', value: 'Agregar Tarea'}
+.row
+  .col-md-6
+    %h2 Crear una tarea
+    %form{method: 'post', action: '/tareas/new'}
+      %input{type: 'text', name: 'tarea[asunto]', placeholder: 'Tarea'}
+      %input.datepicker{type: 'text', name: 'tarea[vencimiento]',
+        placeholder: 'vencimiento'} 
+      %input.btn.btn-primary{type: 'submit', value: 'Agregar Tarea'}
+  .col-md-6
+    %h2 Asignar una tarea
+    %form{method: 'post', action: '/tareas/asignar'}
+      %input{type: 'text', name: 'responsable[email]', placeholder: 'Responsable'}
+      %input.btn.btn-primary{type: 'submit', value: 'Asignar tarea'}
 %table.table
   %thead
     %tr
