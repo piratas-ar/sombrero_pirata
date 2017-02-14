@@ -21,5 +21,6 @@ class Tarea < ActiveRecord::Base
   field :asunto, as: :text
   field :estado, as: :string, default: 'pendiente'
   field :vencimiento, as: :date
+  field :uuid, as: :string
   timestamps
 end

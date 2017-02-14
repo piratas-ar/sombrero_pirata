@@ -21,6 +21,7 @@ require 'sinatra/form_helpers'
 #require 'pry'
 require 'sinatra/flash'
 require 'mail'
+require 'securerandom'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
@@ -38,6 +39,7 @@ end
 
 post '/tareas/new' do
   nueva_tarea = Tarea.new params[:tarea]
+  nueva_tarea.uuid = SecureRandom.uuid
   nueva_tarea.save
   redirect '/'
 end
@@ -56,10 +58,20 @@ post '/tareas/asignar' do
     tarea.estado = 'asignada'
     tarea.save
     mail = Mail.new do
-      from     'sombreo@partidopirata.com.ar'
+      from     'sombrero@partidopirata.com.ar'
       to       responsable.email
       subject  'Se te ha asignado una tarea'
-      body     tarea.asunto
+      body   <<eof
+#{tarea.asunto}
+
+Avast!!
+Se te ha asignado una tarea!
+Si no tenes idea de que es este mensaje, entra al link posterior para
+desasignarte la tarea.
+
+https://sombrero.partidopirata.com.ar/tareas/desasignar/#{tarea.uuid}
+             
+eof
     end
     mail.delivery_method :sendmail
     mail.deliver
@@ -67,4 +79,19 @@ post '/tareas/asignar' do
     flash[:error] = "No hay tareas disponibles"
   end
   redirect '/'
+end
+get '/tareas/desasignar/:uuid' do
+  @tarea = Tarea.find_by(uuid: params[:uuid]) 
+  haml :'tareas/desasignar'
+end
+post '/tareas/desasignar' do 
+  @tarea = Tarea.find(params[:id])
+  @tarea.responsable = nil
+  @tarea.estado = 'pendiente'
+  @tarea.save
+  redirect '/'
+
+
+
+
 end
