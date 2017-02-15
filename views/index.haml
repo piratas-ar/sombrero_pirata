@@ -4,6 +4,7 @@
     %h2 Crear una tarea
     %form{method: 'post', action: '/tareas/new'}
       %input{type: 'text', name: 'tarea[asunto]', placeholder: 'Tarea'}
+      %input{type: 'text', name: 'grupo[nombre]', placeholder: 'Grupo'}
       %input.datepicker{type: 'text', name: 'tarea[vencimiento]',
         placeholder: 'vencimiento'} 
       %input.btn.btn-primary{type: 'submit', value: 'Agregar Tarea'}
@@ -18,6 +19,7 @@
       %th Tarea
       %th Responsable
       %th Estado
+      %th Grupo
       %th Fecha creación
       %th Fecha vencimiento
   %tbody
@@ -26,5 +28,7 @@
         %td= tarea.asunto
         %td= tarea.responsable
         %td= tarea.estado
+        %td
+          %a{href: "/?grupo=#{tarea.grupo.nombre}"}=tarea.grupo.nombre
         %td= tarea.created_at
         %td= tarea.vencimiento

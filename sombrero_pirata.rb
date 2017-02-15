@@ -26,6 +26,7 @@ ActiveRecord::Base.establish_connection(adapter: 'sqlite3',
                                         database: 'sombrero.sqlite')
 require './models/tarea'
 require './models/responsable'
+require './models/grupo'
 
 ActiveRecord::Base.auto_upgrade!
 
@@ -33,11 +34,18 @@ enable :sessions
 
 get '/' do
   @tareas = Tarea.all.order(created_at: :desc)
+
+  # Filtros
+    if params[:grupo].present?
+    grupo = Grupo.find_by(nombre: params[:grupo])
+    @tareas = @tareas.where(grupo: grupo)
+    end
   haml :index
 end
 
 post '/tareas/new' do
   nueva_tarea = Tarea.new params[:tarea]
+  nueva_tarea.grupo = Grupo.find_or_create_by!(nombre: params[:grupo][:nombre])
   nueva_tarea.save
   redirect '/'
 end
