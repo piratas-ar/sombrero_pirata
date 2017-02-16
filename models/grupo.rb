@@ -13,15 +13,9 @@
 
 #   You should have received a copy of the GNU Affero General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>
-class Tarea < ActiveRecord::Base
-  belongs_to :responsable
-  belongs_to :grupo
-# validates_format_of :responsable,
-#                      with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/,
-#                     on: :update
-  field :asunto, as: :text
-  field :estado, as: :string, default: 'pendiente'
+class Grupo < ActiveRecord::Base
+  has_many :tareas
+  field :nombre, as: :string
   field :vencimiento, as: :date
-  field :uuid, as: :string
   timestamps
 end
