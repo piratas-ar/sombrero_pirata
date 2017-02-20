@@ -1,0 +1,8 @@
+%h1 Sombrero Pirata para desvinculacion de tareas
+%h2 
+  Usted es a punto de desasignarse de la tarea:
+  =@tarea.asunto
+  ¿Esta segura?
+%form{method: 'post', action: '/tareas/desasignar'}
+  %input{type: 'hidden', name: 'tarea[uuid]', value: @tarea.uuid}
+  %input.btn.btn-danger{type: 'submit', value: 'Desasignar tarea'}

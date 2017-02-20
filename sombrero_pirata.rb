@@ -46,11 +46,8 @@ end
 
 post '/tareas/new' do
   nueva_tarea = Tarea.new params[:tarea]
-<<<<<<< HEAD
   nueva_tarea.uuid = SecureRandom.uuid
-=======
   nueva_tarea.grupo = Grupo.find_or_create_by!(nombre: params[:grupo][:nombre])
->>>>>>> b2d46253da76d73300b51b40adb05eb2ef9ef970
   nueva_tarea.save
   redirect '/'
 end
@@ -96,7 +93,7 @@ get '/tareas/desasignar/:uuid' do
   haml :'tareas/desasignar'
 end
 post '/tareas/desasignar' do 
-  @tarea = Tarea.find(params[:id])
+  @tarea = Tarea.find_by(uuid: params[:tarea][:uuid])
   @tarea.responsable = nil
   @tarea.estado = 'pendiente'
   @tarea.save
