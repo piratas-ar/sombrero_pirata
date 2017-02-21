@@ -38,8 +38,8 @@ get '/' do
 
   # Filtros
     if params[:grupo].present?
-    grupo = Grupo.find_by(nombre: params[:grupo])
-    @tareas = @tareas.where(grupo: grupo)
+    @grupo = Grupo.find_by(nombre: params[:grupo])
+    @tareas = @tareas.where(grupo: @grupo)
     end
   haml :index
 end
